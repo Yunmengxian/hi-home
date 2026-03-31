@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>导航页</title>
+  <!-- 预连接加速 CDN -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://bing.img.run">
+  <link rel="dns-prefetch" href="https://www.bing.com">
+  <!-- 预加载字体 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="mode-toggle">
+        <button id="modeBtn" class="mode-btn">
+          <span class="mode-icon">🌐</span>
+          <span class="mode-text">内外网切换</span>
+        </button>
+        <div class="mode-status">
+          <span id="currentMode" class="status-badge status-internal">内网模式</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="search-wrapper">
+      <form id="searchForm" action="https://www.bing.com/search" method="get" target="_blank">
+        <i class="fab fa-microsoft search-icon"></i>
+        <input type="text" class="search-box" id="searchInput" name="q" placeholder="搜索一下..." autocomplete="off">
+      </form>
+    </div>
+
+    <main class="card-grid" id="cardGrid"></main>
+
+    <footer>
+      <p><span id="refreshTime"></span></p>
+    </footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script src="fireworks.js"></script>
+</body>
+</html>
