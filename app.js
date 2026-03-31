@@ -29,13 +29,27 @@
     refreshTime.textContent = `${now.getFullYear()}.${pad(now.getMonth() + 1)}.${pad(now.getDate())} 周${days[now.getDay()]} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
   }
 
-  function detectNetwork() {
+  async function detectNetwork() {
+    if (CONFIG.detectMode === 'manual') return;
+
+    if (CONFIG.detectMode === 'ip') {
+      try {
+        const res = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(3000) });
+        const data = await res.json();
+        const isInternal = CONFIG.internalIPs.some(p => data.ip.startsWith(p));
+        currentMode = isInternal ? 'internal' : 'external';
+      } catch {
+        currentMode = CONFIG.defaultMode;
+      }
+    }
+
     if (CONFIG.detectMode === 'ping') {
       const ctrl = new AbortController();
-      const tid = setTimeout(() => ctrl.abort(), 1500);
+      const tid = setTimeout(() => ctrl.abort(), 2000);
       fetch(CONFIG.pingTarget, { mode: 'no-cors', signal: ctrl.signal })
-        .then(() => { clearTimeout(tid); currentMode = 'internal'; updateModeUI(); })
-        .catch(() => { clearTimeout(tid); currentMode = 'external'; updateModeUI(); });
+        .then(() => { clearTimeout(tid); currentMode = 'internal'; })
+        .catch(() => { clearTimeout(tid); currentMode = 'external'; })
+        .finally(() => updateModeUI());
     }
   }
 
