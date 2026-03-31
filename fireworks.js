@@ -65,7 +65,7 @@
 
     // 用半透明清除产生拖尾，不用 clearRect
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
     ctx.fillRect(0, 0, W / dpr, H / dpr);
 
     ctx.globalCompositeOperation = 'lighter';
