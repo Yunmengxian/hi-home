@@ -1,21 +1,14 @@
 /* ============================================
-   导航页样式 - 极光暗色主题
+   导航页样式 - 必应风格
    ============================================ */
 
 /* ---------- CSS 变量 ---------- */
 :root {
-  --bg-primary: transparent;
-  --bg-card: rgba(255, 255, 255, 0.75);
-  --bg-card-hover: rgba(255, 255, 255, 0.88);
+  --bg-card: rgba(255, 255, 255, 0.88);
+  --bg-card-hover: rgba(255, 255, 255, 0.96);
   --text-primary: #1a1a1a;
   --text-secondary: #666;
-  --text-muted: #888;
-  --border-color: rgba(255, 255, 255, 0.3);
-  --border-hover: rgba(255, 255, 255, 0.5);
-  --radius: 16px;
-  --radius-sm: 12px;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
-  --transition: all 0.2s ease;
+  --radius: 12px;
 }
 
 /* ---------- 基础 ---------- */
@@ -24,431 +17,217 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'PingFang SC', sans-serif;
   background: #1a1a2e;
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
-  position: relative;
 }
 
-/* 每日必应背景图 */
+/* 必应背景图 */
 body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://bing.img.run/1920x1080.php');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  inset: 0;
+  background: url('https://bing.img.run/1920x1080.php') center/cover no-repeat;
   z-index: 0;
-  pointer-events: none;
 }
 
-/* 背景遮罩 */
+/* 遮罩 - 底部加深 */
 body::after {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(180deg, 
-    transparent 0%, 
-    rgba(0, 0, 0, 0.15) 70%, 
-    rgba(0, 0, 0, 0.4) 100%);
+    rgba(0,0,0,0.05) 0%, 
+    rgba(0,0,0,0.2) 60%, 
+    rgba(0,0,0,0.5) 100%);
   z-index: 0;
-  pointer-events: none;
 }
-
-/* 入场动画使用 GPU 加速 */
-.search-wrapper, .group-section {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-}
-
-/* 网格纹理已移除，使用随机背景图 */
 
 /* ---------- 布局 ---------- */
 .container {
   position: relative;
   z-index: 1;
-  max-width: 1100px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 48px 32px 60px;
+  padding: clamp(50px, 12vh, 120px) clamp(16px, 5vw, 40px) 40px;
 }
 
 /* ---------- Header ---------- */
-header {
-  display: none;
-}
+header { display: none; }
 
-/* ---------- 搜索栏 ---------- */
+/* ---------- 搜索栏 - 视觉核心 ---------- */
 .search-wrapper {
-  max-width: 580px;
-  margin: 0 auto 40px;
-  position: relative;
+  max-width: 520px;
+  margin: 0 auto clamp(28px, 5vw, 48px);
 }
 
 .search-box {
   width: 100%;
-  padding: 14px 20px 14px 48px;
-  background: rgba(255, 255, 255, 0.96);
+  padding: clamp(12px, 2.5vh, 16px) clamp(16px, 3vw, 24px);
+  padding-left: clamp(44px, 8vw, 52px);
+  background: rgba(255,255,255,0.98);
   border: none;
-  border-radius: 28px;
+  border-radius: clamp(22px, 4vw, 28px);
   color: #1a1a1a;
-  font-size: 15px;
+  font-size: clamp(14px, 2vw, 16px);
   outline: none;
-  transition: box-shadow 0.2s ease, transform 0.15s ease;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s ease;
 }
 
-.search-box::placeholder {
-  color: #999;
-}
-
+.search-box::placeholder { color: #999; }
 .search-box:focus {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
-  transform: scale(1.01);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 12px 40px rgba(0,0,0,0.1);
 }
 
 .search-icon {
   position: absolute;
-  left: 18px;
+  left: clamp(14px, 3vw, 20px);
   top: 50%;
   transform: translateY(-50%);
-  color: #666;
-  font-size: 16px;
-  pointer-events: none;
+  color: #444;
+  font-size: clamp(14px, 2vw, 17px);
 }
 
 /* ---------- 分组 ---------- */
 .group-section {
-  margin-bottom: 32px;
+  margin-bottom: clamp(20px, 3vh, 28px);
 }
 
 .group-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: clamp(10px, 1.5vw, 11px);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255,255,255,0.75);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 12px;
-  padding-left: 4px;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  letter-spacing: 1.2px;
+  margin-bottom: clamp(8px, 1.5vh, 12px);
+  padding-left: 2px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .group-title i {
-  font-size: 11px;
-  opacity: 0.7;
+  font-size: 0.9em;
+  opacity: 0.8;
 }
 
 .group-title::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(90deg, rgba(255,255,255,0.12), transparent);
   margin-left: 10px;
 }
 
 /* ---------- 卡片网格 ---------- */
 .card-row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(130px, 28vw, 180px), 1fr));
+  gap: clamp(6px, 1.2vw, 10px);
 }
 
 /* ---------- 卡片 ---------- */
 .nav-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.85);
+  gap: clamp(8px, 1.5vw, 12px);
+  padding: clamp(10px, 2vh, 14px) clamp(10px, 1.5vw, 14px);
+  background: var(--bg-card);
   border: none;
-  border-radius: 10px;
+  border-radius: clamp(8px, 1.5vw, 10px);
   text-decoration: none;
-  color: #1a1a1a;
-  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: all 0.15s ease;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
 .nav-card:hover {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--bg-card-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.nav-card:active {
-  transform: translateY(0) scale(0.98);
 }
 
 /* ---------- 图标 ---------- */
 .card-icon {
   flex-shrink: 0;
-  width: 38px;
-  height: 38px;
+  width: clamp(30px, 5vw, 36px);
+  height: clamp(30px, 5vw, 36px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  font-size: 16px;
-  transition: var(--transition);
-  position: relative;
+  border-radius: clamp(6px, 1vw, 8px);
+  font-size: clamp(13px, 2vw, 15px);
+  transition: transform 0.15s ease;
 }
 
 .nav-card:hover .card-icon {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 /* ---------- 信息 ---------- */
 .card-info {
   flex: 1;
   min-width: 0;
+  overflow: hidden;
 }
 
 .card-name {
-  font-size: 13px;
+  font-size: clamp(11px, 1.8vw, 13px);
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 1px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .card-desc {
-  font-size: 11px;
+  font-size: clamp(9px, 1.3vw, 10px);
   color: var(--text-secondary);
-  opacity: 0.75;
+  opacity: 0.8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.card-url {
-  display: none;
-}
+.card-url { display: none; }
 
 /* ---------- Footer ---------- */
 footer {
   text-align: center;
-  margin-top: 48px;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 11px;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  margin-top: clamp(32px, 5vh, 48px);
+  color: rgba(255,255,255,0.4);
+  font-size: clamp(10px, 1.5vw, 11px);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
-
-footer p { opacity: 0.5; }
 
 /* ---------- 入场动画 ---------- */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.search-wrapper {
-  animation: fadeInUp 0.4s ease forwards;
-  opacity: 0;
-}
-
-.group-section {
-  animation: fadeInUp 0.35s ease forwards;
-  opacity: 0;
-}
-
-.group-section:nth-child(1) { animation-delay: 0.05s; }
-.group-section:nth-child(2) { animation-delay: 0.1s; }
-.group-section:nth-child(3) { animation-delay: 0.15s; }
-.group-section:nth-child(4) { animation-delay: 0.2s; }
-.group-section:nth-child(5) { animation-delay: 0.25s; }
+.search-wrapper { animation: fadeUp 0.35s ease forwards; opacity: 0; }
+.group-section { animation: fadeUp 0.3s ease forwards; opacity: 0; }
+.group-section:nth-child(1) { animation-delay: 0.06s; }
+.group-section:nth-child(2) { animation-delay: 0.11s; }
+.group-section:nth-child(3) { animation-delay: 0.16s; }
+.group-section:nth-child(4) { animation-delay: 0.21s; }
+.group-section:nth-child(5) { animation-delay: 0.26s; }
 
 /* ---------- 滚动条 ---------- */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
 
-/* ---------- 响应式 ---------- */
-@media (max-width: 768px) {
-  .container {
-    padding: 24px 16px 40px;
-  }
-
-  .card-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-
-  .nav-card {
-    padding: 12px;
-    gap: 10px;
-    border-radius: 10px;
-  }
-
-  .card-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 15px;
-    border-radius: 8px;
-  }
-
-  .card-name {
-    font-size: 12px;
-  }
-
-  .card-desc {
-    font-size: 10px;
-  }
-
-  .group-title {
-    font-size: 11px;
-    margin-bottom: 10px;
-  }
-
-  .search-wrapper {
-    margin-bottom: 28px;
-  }
-
-  .search-box {
-    padding: 12px 16px 12px 44px;
-    font-size: 14px;
-  }
+/* ---------- 超小屏兜底 ---------- */
+@media (max-width: 340px) {
+  .card-row { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* 6.7寸大屏手机 (iPhone 14 Pro Max / 15 Plus 等，宽度 430px) */
-@media (max-width: 460px) and (min-width: 390px) {
-  .container {
-    padding: 20px 14px 36px;
-  }
-
-  .card-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-
-  .nav-card {
-    padding: 11px 10px;
-    gap: 9px;
-    border-radius: 9px;
-  }
-
-  .card-icon {
-    width: 34px;
-    height: 34px;
-    font-size: 14px;
-    border-radius: 7px;
-  }
-
-  .card-name {
-    font-size: 12px;
-    margin-bottom: 0;
-  }
-
-  .card-desc {
-    font-size: 10px;
-  }
-
-  .group-section {
-    margin-bottom: 22px;
-  }
-
-  .group-title {
-    font-size: 10px;
-    letter-spacing: 1.2px;
-    margin-bottom: 8px;
-  }
-
-  .search-wrapper {
-    margin-bottom: 22px;
-  }
-
-  .search-box {
-    padding: 11px 16px 11px 42px;
-    font-size: 14px;
-    border-radius: 24px;
-  }
-
-  .search-icon {
-    left: 15px;
-    font-size: 15px;
-  }
-}
-
-/* 小屏手机 */
-@media (max-width: 389px) {
-  .container {
-    padding: 16px 10px 28px;
-  }
-
-  .card-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-  }
-
-  .nav-card {
-    padding: 9px 8px;
-    gap: 7px;
-    border-radius: 8px;
-  }
-
-  .card-icon {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
-    border-radius: 6px;
-  }
-
-  .card-name {
-    font-size: 10px;
-  }
-
-  .card-desc {
-    font-size: 9px;
-  }
-
-  .group-section {
-    margin-bottom: 18px;
-  }
-
-  .group-title {
-    font-size: 9px;
-    margin-bottom: 6px;
-  }
-
-  .search-wrapper {
-    margin-bottom: 18px;
-  }
-
-  .search-box {
-    padding: 10px 12px 10px 38px;
-    font-size: 12px;
-    border-radius: 20px;
-  }
-
-  .search-icon {
-    left: 12px;
-    font-size: 13px;
-  }
-}
-
-/* ---------- 选中文字颜色 ---------- */
-::selection {
-  background: rgba(34, 211, 238, 0.25);
-  color: #fff;
-}
+/* ---------- 选中 ---------- */
+::selection { background: rgba(34,211,238,0.3); color: #fff; }
