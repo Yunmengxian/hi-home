@@ -63,9 +63,9 @@
   function loop(time) {
     requestAnimationFrame(loop);
 
-    // 用半透明清除产生拖尾，不用 clearRect
+    // 清除产生拖尾
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
     ctx.fillRect(0, 0, W / dpr, H / dpr);
 
     ctx.globalCompositeOperation = 'lighter';
