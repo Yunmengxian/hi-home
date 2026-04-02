@@ -1,173 +1,155 @@
 /* ============================================
-   导航页样式 - 必应风格
+   导航页样式 - 简洁自然风格 v1.1.0
    ============================================ */
 
-/* ---------- CSS 变量 ---------- */
 :root {
-  --bg-card: rgba(255, 255, 255, 0.88);
-  --bg-card-hover: rgba(255, 255, 255, 0.96);
-  --text-primary: #1a1a1a;
-  --text-secondary: #666;
+  --bg: #f8f9fa;
+  --card: rgba(255, 255, 255, 0.94);
+  --card-hover: rgba(255, 255, 255, 1);
+  --text: #2d3748;
+  --text-muted: #718096;
+  --border: rgba(0, 0, 0, 0.06);
+  --shadow: rgba(0, 0, 0, 0.04);
   --radius: 12px;
 }
 
-/* ---------- 基础 ---------- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { font-size: 16px; scroll-behavior: smooth; }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'PingFang SC', sans-serif;
-  background: #1a1a2e;
-  color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
+  color: var(--text);
+  background: var(--bg);
 }
 
-/* 必应背景图 */
+/* 自然渐变背景 */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: url('https://bing.img.run/1920x1080.php') center/cover no-repeat;
+  background: 
+    radial-gradient(ellipse 120% 80% at 80% -20%, rgba(230, 240, 250, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 60% at 0% 100%, rgba(245, 240, 235, 0.6) 0%, transparent 40%);
   z-index: 0;
-}
-
-/* 遮罩 - 底部加深 */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(180deg, 
-    rgba(0,0,0,0.05) 0%, 
-    rgba(0,0,0,0.2) 60%, 
-    rgba(0,0,0,0.5) 100%);
-  z-index: 0;
+  pointer-events: none;
 }
 
 /* ---------- 布局 ---------- */
 .container {
   position: relative;
   z-index: 1;
-  max-width: 900px;
+  max-width: min(900px, 94vw);
   margin: 0 auto;
-  padding: clamp(50px, 12vh, 120px) clamp(16px, 5vw, 40px) 40px;
+  padding: clamp(40px, 10vh, 80px) clamp(16px, 4vw, 32px) clamp(40px, 8vh, 60px);
 }
 
-/* ---------- Header ---------- */
 header { display: none; }
 
-/* ---------- 搜索栏 - 视觉核心 ---------- */
+/* ---------- 搜索栏 ---------- */
 .search-wrapper {
-  max-width: 520px;
-  margin: 0 auto clamp(28px, 5vw, 48px);
+  max-width: min(480px, 100%);
+  margin: 0 auto clamp(24px, 4vw, 40px);
+  position: relative;
 }
 
 .search-box {
   width: 100%;
-  padding: clamp(12px, 2.5vh, 16px) clamp(16px, 3vw, 24px);
-  padding-left: clamp(44px, 8vw, 52px);
-  background: rgba(255,255,255,0.98);
-  border: none;
-  border-radius: clamp(22px, 4vw, 28px);
-  color: #1a1a1a;
-  font-size: clamp(14px, 2vw, 16px);
+  padding: clamp(12px, 2vh, 15px) clamp(16px, 3vw, 20px);
+  padding-left: clamp(42px, 8vw, 48px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: clamp(20px, 4vw, 24px);
+  color: var(--text);
+  font-size: clamp(14px, 1.8vw, 15px);
   outline: none;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.08);
-  transition: box-shadow 0.2s ease;
+  box-shadow: 0 1px 6px var(--shadow);
+  transition: all 0.2s ease;
 }
 
-.search-box::placeholder { color: #999; }
+.search-box::placeholder { color: var(--text-muted); opacity: 0.7; }
 .search-box:focus {
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 12px 40px rgba(0,0,0,0.1);
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .search-icon {
   position: absolute;
-  left: clamp(14px, 3vw, 20px);
+  left: clamp(14px, 3vw, 18px);
   top: 50%;
   transform: translateY(-50%);
-  color: #444;
-  font-size: clamp(14px, 2vw, 17px);
+  color: var(--text-muted);
+  font-size: clamp(13px, 1.6vw, 15px);
 }
 
 /* ---------- 分组 ---------- */
 .group-section {
-  margin-bottom: clamp(20px, 3vh, 28px);
+  margin-bottom: clamp(18px, 3vh, 26px);
 }
 
 .group-title {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: clamp(10px, 1.5vw, 11px);
+  gap: clamp(6px, 1vw, 8px);
+  font-size: clamp(10px, 1.3vw, 11px);
   font-weight: 600;
-  color: rgba(255,255,255,0.75);
+  color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin-bottom: clamp(8px, 1.5vh, 12px);
+  letter-spacing: 1px;
+  margin-bottom: clamp(8px, 1.2vh, 12px);
   padding-left: 2px;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-.group-title i {
-  font-size: 0.9em;
-  opacity: 0.8;
-}
-
+.group-title i { font-size: 0.85em; opacity: 0.6; }
 .group-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.12), transparent);
-  margin-left: 10px;
+  display: none;
 }
 
 /* ---------- 卡片网格 ---------- */
 .card-row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(130px, 28vw, 180px), 1fr));
-  gap: clamp(6px, 1.2vw, 10px);
+  grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 30vw, 200px), 1fr));
+  gap: clamp(8px, 1.5vw, 12px);
 }
 
 /* ---------- 卡片 ---------- */
 .nav-card {
   display: flex;
   align-items: center;
-  gap: clamp(8px, 1.5vw, 12px);
-  padding: clamp(10px, 2vh, 14px) clamp(10px, 1.5vw, 14px);
-  background: var(--bg-card);
-  border: none;
-  border-radius: clamp(8px, 1.5vw, 10px);
+  gap: clamp(10px, 1.5vw, 14px);
+  padding: clamp(12px, 2vh, 16px) clamp(12px, 1.8vw, 16px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: clamp(10px, 1.8vw, var(--radius));
   text-decoration: none;
-  color: var(--text-primary);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  transition: all 0.15s ease;
+  color: var(--text);
+  box-shadow: 0 1px 4px var(--shadow);
+  transition: all 0.18s ease;
   cursor: pointer;
 }
 
 .nav-card:hover {
-  background: var(--bg-card-hover);
+  background: var(--card-hover);
+  border-color: rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 /* ---------- 图标 ---------- */
 .card-icon {
   flex-shrink: 0;
-  width: clamp(30px, 5vw, 36px);
-  height: clamp(30px, 5vw, 36px);
+  width: clamp(32px, 5.5vw, 40px);
+  height: clamp(32px, 5.5vw, 40px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: clamp(6px, 1vw, 8px);
-  font-size: clamp(13px, 2vw, 15px);
+  border-radius: clamp(8px, 1.2vw, 10px);
+  font-size: clamp(14px, 2.2vw, 17px);
   transition: transform 0.15s ease;
 }
 
-.nav-card:hover .card-icon {
-  transform: scale(1.06);
-}
+.nav-card:hover .card-icon { transform: scale(1.05); }
 
 /* ---------- 信息 ---------- */
 .card-info {
@@ -177,18 +159,18 @@ header { display: none; }
 }
 
 .card-name {
-  font-size: clamp(11px, 1.8vw, 13px);
+  font-size: clamp(12px, 1.7vw, 14px);
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .card-desc {
-  font-size: clamp(9px, 1.3vw, 10px);
-  color: var(--text-secondary);
-  opacity: 0.8;
+  font-size: clamp(10px, 1.3vw, 11px);
+  color: var(--text-muted);
+  margin-top: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -199,35 +181,39 @@ header { display: none; }
 /* ---------- Footer ---------- */
 footer {
   text-align: center;
-  margin-top: clamp(32px, 5vh, 48px);
-  color: rgba(255,255,255,0.4);
-  font-size: clamp(10px, 1.5vw, 11px);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  margin-top: clamp(32px, 6vh, 56px);
+  color: var(--text-muted);
+  font-size: clamp(10px, 1.3vw, 11px);
+  opacity: 0.7;
 }
 
 /* ---------- 入场动画 ---------- */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.search-wrapper { animation: fadeUp 0.35s ease forwards; opacity: 0; }
-.group-section { animation: fadeUp 0.3s ease forwards; opacity: 0; }
-.group-section:nth-child(1) { animation-delay: 0.06s; }
-.group-section:nth-child(2) { animation-delay: 0.11s; }
-.group-section:nth-child(3) { animation-delay: 0.16s; }
-.group-section:nth-child(4) { animation-delay: 0.21s; }
-.group-section:nth-child(5) { animation-delay: 0.26s; }
+.search-wrapper { animation: fadeUp 0.3s ease forwards; opacity: 0; }
+.group-section { animation: fadeUp 0.28s ease forwards; opacity: 0; }
+.group-section:nth-child(1) { animation-delay: 0.05s; }
+.group-section:nth-child(2) { animation-delay: 0.1s; }
+.group-section:nth-child(3) { animation-delay: 0.15s; }
+.group-section:nth-child(4) { animation-delay: 0.2s; }
+.group-section:nth-child(5) { animation-delay: 0.25s; }
 
 /* ---------- 滚动条 ---------- */
-::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 2px; }
 
-/* ---------- 超小屏兜底 ---------- */
-@media (max-width: 340px) {
+/* ---------- 响应式微调 ---------- */
+@media (max-width: 480px) {
+  .card-row { gap: 8px; }
+  .nav-card { padding: 11px 12px; }
+}
+
+@media (max-width: 360px) {
   .card-row { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ---------- 选中 ---------- */
-::selection { background: rgba(34,211,238,0.3); color: #fff; }
+::selection { background: rgba(66, 153, 225, 0.2); }
