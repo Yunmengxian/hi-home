@@ -1,24 +1,22 @@
 // ============================================
-// 导航页核心逻辑（性能优化版）
+// 导航页核心逻辑
 // ============================================
 
 (function () {
   'use strict';
 
-  let currentMode = CONFIG.defaultMode;
+  // 从 localStorage 获取密钥解锁状态
+  // 密钥 base64 解码
+  const secretKey = CONFIG.secretKey ? atob(CONFIG.secretKey) : '';
+  let secretRevealed = localStorage.getItem('nav-secret') === 'true';
+  
   const cardGrid = document.getElementById('cardGrid');
-  const modeBtn = document.getElementById('modeBtn');
-  const currentModeEl = document.getElementById('currentMode');
   const refreshTime = document.getElementById('refreshTime');
   const searchInput = document.getElementById('searchInput');
 
-  // 使用 DocumentFragment 批量渲染，减少重排
   async function init() {
     updateTime();
-    detectNetwork();
     renderCards();
-    updateModeUI();
-    modeBtn.addEventListener('click', toggleMode);
     searchInput.addEventListener('input', debounceSearch);
   }
 
@@ -29,36 +27,18 @@
     refreshTime.textContent = `${now.getFullYear()}.${pad(now.getMonth() + 1)}.${pad(now.getDate())} 周${days[now.getDay()]} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
   }
 
-  async function detectNetwork() {
-    if (CONFIG.detectMode === 'manual') return;
-
-    if (CONFIG.detectMode === 'ip') {
-      try {
-        const res = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(3000) });
-        const data = await res.json();
-        const isInternal = CONFIG.internalIPs.some(p => data.ip.startsWith(p));
-        currentMode = isInternal ? 'internal' : 'external';
-      } catch {
-        currentMode = CONFIG.defaultMode;
-      }
-    }
-
-    if (CONFIG.detectMode === 'ping') {
-      const ctrl = new AbortController();
-      const tid = setTimeout(() => ctrl.abort(), 2000);
-      fetch(CONFIG.pingTarget, { mode: 'no-cors', signal: ctrl.signal })
-        .then(() => { clearTimeout(tid); currentMode = 'internal'; })
-        .catch(() => { clearTimeout(tid); currentMode = 'external'; })
-        .finally(() => updateModeUI());
-    }
-  }
-
   function renderCards(filter = '') {
     const frag = document.createDocumentFragment();
     const keyword = filter.toLowerCase().trim();
+    
+    const showHidden = secretRevealed || keyword === secretKey;
 
     CONFIG.groups.forEach(group => {
-      const items = keyword
+      if (CONFIG.hiddenGroups && CONFIG.hiddenGroups.includes(group.name) && !showHidden) {
+        return;
+      }
+      
+      const items = keyword && !showHidden
         ? group.items.filter(i => i.name.toLowerCase().includes(keyword) || i.desc.toLowerCase().includes(keyword))
         : group.items;
       if (!items.length) return;
@@ -75,15 +55,23 @@
       grid.className = 'card-row';
 
       items.forEach(item => {
-        const url = item.isExternalOnly ? item.external : (currentMode === 'internal' ? item.internal : item.external);
+        // 验证 URL 格式，防止 javascript: 伪协议
+        let url = item.url;
+        if (url && !url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('/')) {
+          url = 'https://' + url;
+        }
+        
         const card = document.createElement('a');
         card.className = 'nav-card';
         card.href = url;
         card.target = '_blank';
         card.rel = 'noopener noreferrer';
-        card.style.setProperty('--c', item.color);
-
-        card.innerHTML = `<div class="card-icon" style="background:${item.color}15;color:${item.color}"><i class="${item.icon}"></i></div><div class="card-info"><div class="card-name">${item.name}</div><div class="card-desc">${item.desc}</div></div>`;
+        
+        // 转义 HTML 防止 XSS
+        const name = item.name.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const desc = item.desc.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        
+        card.innerHTML = `<div class="card-icon" style="background:${item.color}15;color:${item.color}"><i class="${item.icon}"></i></div><div class="card-info"><div class="card-name">${name}</div><div class="card-desc">${desc}</div></div>`;
         grid.appendChild(card);
       });
 
@@ -99,23 +87,32 @@
     }
   }
 
-  function toggleMode() {
-    currentMode = currentMode === 'internal' ? 'external' : 'internal';
-    updateModeUI();
-    renderCards(searchInput.value);
-  }
-
-  function updateModeUI() {
-    currentModeEl.textContent = currentMode === 'internal' ? '内网模式' : '外网模式';
-    currentModeEl.className = 'status-badge ' + (currentMode === 'internal' ? 'status-internal' : 'status-external');
-  }
-
-  // 防抖
   let timer;
   function debounceSearch() {
     clearTimeout(timer);
+    const keyword = searchInput.value.toLowerCase().trim();
+    
+    if (keyword === secretKey) {
+      secretRevealed = true;
+      localStorage.setItem('nav-secret', 'true');
+      searchInput.value = '';
+      renderCards('');
+      return;
+    }
+    
     timer = setTimeout(() => renderCards(searchInput.value), 200);
   }
+
+  document.getElementById('searchForm').addEventListener('submit', function(e) {
+    const keyword = searchInput.value.toLowerCase().trim();
+    if (keyword === secretKey) {
+      e.preventDefault();
+      secretRevealed = true;
+      localStorage.setItem('nav-secret', 'true');
+      searchInput.value = '';
+      renderCards('');
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', init);
 })();
