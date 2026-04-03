@@ -102,9 +102,6 @@ header { display: none; }
 }
 
 .group-title i { font-size: 0.85em; opacity: 0.6; }
-.group-title::after {
-  display: none;
-}
 
 /* ---------- 卡片网格 ---------- */
 .card-row {
