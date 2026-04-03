@@ -73,5 +73,17 @@
   });
 
   searchInput.addEventListener('input', debounceSearch);
+
+  // 修复 iOS Safari 输入框缩放后无法复原
+  searchInput.addEventListener('blur', function () {
+    setTimeout(function () {
+      if (document.activeElement !== searchInput) {
+        document.documentElement.style.zoom = '';
+        var scrollY = window.scrollY;
+        window.scrollTo(0, scrollY);
+      }
+    }, 100);
+  });
+
   document.addEventListener('DOMContentLoaded', function () { updateTime(); renderCards(''); });
 })();
