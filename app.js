@@ -87,6 +87,7 @@
   });
 
   // DOM 已就绪（script 在 body 末尾同步加载），直接初始化
+  console.log('%c🚀 hi-home v1.3.2 %cgithub.com/Yunmengxian/hi-home','color:#49b1f5;font-size:16px;font-weight:bold','color:#718096');
   updateTime();
   renderCards('');
 })();
