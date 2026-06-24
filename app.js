@@ -1,6 +1,7 @@
 // 导航页核心逻辑
 (function () {
   'use strict';
+  var CONFIG = typeof window.CONFIG !== 'undefined' ? window.CONFIG : { groups: [], hiddenGroups: [], enableFireworks: false, siteName: '导航页' };
   var secretKey = CONFIG.secretKey ? atob(CONFIG.secretKey) : '';
   var secretRevealed = localStorage.getItem('nav-secret') === 'true';
   var cardGrid = document.getElementById('cardGrid');
@@ -85,5 +86,7 @@
     }, 100);
   });
 
-  document.addEventListener('DOMContentLoaded', function () { updateTime(); renderCards(''); });
+  // DOM 已就绪（script 在 body 末尾同步加载），直接初始化
+  updateTime();
+  renderCards('');
 })();
