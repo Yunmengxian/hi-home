@@ -117,6 +117,10 @@ nav-page/
 
 详见 [CHANGELOG.txt](./CHANGELOG.txt)
 
+## 维护指南
+
+详见 [MAINTENANCE.md](./MAINTENANCE.md)
+
 ## 版本历史
 
 - **v1.3.2** - Bug 修复：初始化可靠性、烟花加载方式、config 容错
